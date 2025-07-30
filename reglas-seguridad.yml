@@ -1,0 +1,106 @@
+rules:
+  - id: evitar-console-log
+    pattern: console.log(...)
+    message: Evita el uso de console.log() en producción
+    severity: WARNING
+    languages: [typescript]
+
+  - id: evitar-cadenas-duplicadas
+    pattern-either:
+      - pattern: '"<cadena_repetida>"'
+    message: Posible uso de cadenas duplicadas, considera reutilizar constantes
+    severity: INFO
+    languages: [typescript]
+
+  - id: asignacion-no-utilizada
+    pattern: |
+      const $X = ...
+    message: Esta variable parece no ser usada, elimina código muerto
+    severity: WARNING
+    languages: [typescript]
+
+  - id: anidamiento-condicional-profundo
+    pattern: |
+      if (...) {
+        if (...) {
+          if (...) {
+            ...
+          }
+        }
+      }
+    message: Reduzca la complejidad eliminando condicionales innecesarios
+    severity: WARNING
+    languages: [typescript]
+
+  - id: condicion-constante
+    pattern: |
+      if (true) { ... }
+    message: Esta condición es siempre verdadera. Elimínala o ajusta la lógica
+    severity: WARNING
+    languages: [typescript]
+
+  - id: condicion-redundante
+    pattern: |
+      if ($X === true) { ... }
+    message: Esta condición es redundante, solo evalúa $X
+    severity: INFO
+    languages: [typescript]
+
+  - id: comparar-con-booleano
+    pattern: |
+      if ($X === true) { ... }
+    message: Evita comparar booleanos explícitamente, usa directamente la variable
+    severity: INFO
+    languages: [typescript]
+
+  - id: catch-vacio
+    pattern: |
+      try {
+        ...
+      } catch (e) {}
+    message: No capturar excepciones sin manejar el error adecuadamente
+    severity: WARNING
+    languages: [typescript]
+
+  - id: regex-insegura
+    pattern: new RegExp(".*")
+    message: Validar expresiones regulares potencialmente peligrosas (ReDos)
+    severity: WARNING
+    languages: [typescript]
+
+  - id: evitar-any
+    pattern: |
+      let $X: any = ...
+    message: Evita usar 'any'. Define un tipo explícito o usa unknown
+    severity: WARNING
+    languages: [typescript]
+
+  - id: evitar-ts-ignore
+    pattern: |
+      // @ts-ignore
+    message: No uses @ts-ignore sin justificación explícita
+    severity: WARNING
+    languages: [typescript]
+
+  - id: for-in-sin-validacion
+    pattern: |
+      for (const $key in $obj) {
+        ...
+      }
+    message: Validar for-in con hasOwnProperty para evitar prototipos heredados
+    severity: WARNING
+    languages: [typescript]
+
+  - id: promesa-no-manejada
+    pattern: new Promise((resolve, reject) => { ... })
+    message: Las promesas deben ser retornadas o manejadas adecuadamente
+    severity: WARNING
+    languages: [typescript]
+
+  - id: reject-unauthorized-false
+    pattern: |
+      rejectUnauthorized: false
+    message: Esta configuración desactiva la verificación TLS. ¡Peligro en producción!
+    severity: ERROR
+    languages: [typescript]
+
